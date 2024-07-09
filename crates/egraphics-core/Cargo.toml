@@ -5,10 +5,11 @@ authors.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
-description = "Core of the egraphics library"
+description = "Core primitives and operations for processing graphics formats in 3D space."
 
 
 [dependencies]
+thiserror = { workspace = true }
 nalgebra = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }

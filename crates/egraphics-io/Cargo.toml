@@ -5,10 +5,10 @@ authors.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
-description = "IO related logic for the egraphics library"
+description = "IO operations for processing graphics formats in 3D space."
 
 [dependencies]
-egraphics-core = { version = "0.0.1-alpha.1", path = "../egraphics-core", registry = "custom" }
+egraphics-core = { version = "0.0.1-alpha.3", path = "../egraphics-core" }
 
 thiserror = { workspace = true }
 tracing = { workspace = true }

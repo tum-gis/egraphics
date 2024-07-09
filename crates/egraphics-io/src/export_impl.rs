@@ -1,5 +1,6 @@
 use gltf_json as json;
 
+use gltf_json::buffer::Stride;
 use json::validation::Checked::Valid;
 use std::io::Write;
 use std::path::Path;
@@ -29,9 +30,9 @@ pub fn write_gltf_file(triangle_mesh: egraphics_core::TriangleMesh, gltf_path: i
     let position_min = triangle_mesh.get_min();
     let position_max = triangle_mesh.get_max();
 
-    let buffer_length = (triangle_vertices.len() * mem::size_of::<egraphics_core::Vertex>()) as u32;
+    let buffer_length = triangle_vertices.len() * mem::size_of::<egraphics_core::Vertex>();
     let buffer = json::Buffer {
-        byte_length: buffer_length,
+        byte_length: buffer_length.into(),
         extensions: Default::default(),
         extras: Default::default(),
         name: None,
@@ -41,7 +42,7 @@ pub fn write_gltf_file(triangle_mesh: egraphics_core::TriangleMesh, gltf_path: i
         buffer: json::Index::new(0),
         byte_length: buffer.byte_length,
         byte_offset: None,
-        byte_stride: Some(mem::size_of::<egraphics_core::Vertex>() as u32),
+        byte_stride: Some(Stride(mem::size_of::<egraphics_core::Vertex>())),
         extensions: Default::default(),
         extras: Default::default(),
         name: None,
@@ -49,8 +50,8 @@ pub fn write_gltf_file(triangle_mesh: egraphics_core::TriangleMesh, gltf_path: i
     };
     let positions = json::Accessor {
         buffer_view: Some(json::Index::new(0)),
-        byte_offset: 0,
-        count: triangle_vertices.len() as u32,
+        byte_offset: None,
+        count: triangle_vertices.len().into(),
         component_type: Valid(json::accessor::GenericComponentType(
             json::accessor::ComponentType::F32,
         )),
@@ -73,8 +74,8 @@ pub fn write_gltf_file(triangle_mesh: egraphics_core::TriangleMesh, gltf_path: i
     };
     let colors = json::Accessor {
         buffer_view: Some(json::Index::new(0)),
-        byte_offset: (3 * mem::size_of::<f32>()) as u32,
-        count: triangle_vertices.len() as u32,
+        byte_offset: Some((3 * mem::size_of::<f32>()).into()),
+        count: triangle_vertices.len().into(),
         component_type: Valid(json::accessor::GenericComponentType(
             json::accessor::ComponentType::F32,
         )),
@@ -90,7 +91,7 @@ pub fn write_gltf_file(triangle_mesh: egraphics_core::TriangleMesh, gltf_path: i
 
     let primitive = json::mesh::Primitive {
         attributes: {
-            let mut map = std::collections::HashMap::new();
+            let mut map = std::collections::BTreeMap::new();
             map.insert(Valid(json::mesh::Semantic::Positions), json::Index::new(0));
             map.insert(Valid(json::mesh::Semantic::Colors(0)), json::Index::new(1));
             map

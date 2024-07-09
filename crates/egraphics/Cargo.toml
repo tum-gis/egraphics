@@ -5,9 +5,9 @@ authors.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
-description = "Library for processing graphics formats"
+description = "Library for processing graphics formats in 3D space."
 
 
 [dependencies]
-egraphics-core = { version = "0.0.1-alpha.1", path = "../egraphics-core", registry = "custom" }
-egraphics-io = { version = "0.0.1-alpha.1", path = "../egraphics-io", registry = "custom" }
+egraphics-core = { version = "0.0.1-alpha.3", path = "../egraphics-core" }
+egraphics-io = { version = "0.0.1-alpha.3", path = "../egraphics-io" }

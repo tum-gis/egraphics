@@ -1,6 +1,6 @@
 # egraphics
 
-A Rust library for processing graphics formats in 3D space.
+Library for processing graphics formats in 3D space.
 
 > [!WARNING]  
 > The library is at an early stage of development.

@@ -17,9 +17,9 @@ pub struct EgraphicsExporter {
 }
 
 impl EgraphicsExporter {
-    pub fn new(directory_path: impl AsRef<Path>) -> Self {
+    pub fn new(path: impl AsRef<Path>) -> Self {
         Self {
-            path: directory_path.as_ref().to_owned(),
+            path: path.as_ref().to_owned(),
             derive_obj_file: false,
             create_parent_directories: false,
         }
@@ -47,12 +47,14 @@ impl EgraphicsExporter {
         write_gltf_file(triangle_mesh, &self.path);
 
         if self.derive_obj_file {
-            Command::new("assimp")
+            let mut child = Command::new("assimp")
                 .arg("export")
                 .arg(&self.path)
                 .arg(self.get_obj_file_path())
                 .spawn()
                 .expect("assimp command failed to start");
+
+            let _result = child.wait().unwrap();
         }
 
         Ok(())
