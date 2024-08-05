@@ -2,8 +2,7 @@
 
 Library for processing graphics formats in 3D space.
 
-> [!WARNING]  
-> The library is at an early stage of development.
+The library is at an early stage of development.
 
 ## Contributing
 
