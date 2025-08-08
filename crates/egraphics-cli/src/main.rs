@@ -1,8 +1,11 @@
+mod cli;
+
+use anyhow::Result;
 use egraphics_io::EgraphicsExporter;
 use std::path::PathBuf;
 use tracing::info;
 
-fn main() {
+fn main() -> Result<()> {
     tracing_subscriber::fmt::init();
     info!("Hello, world!");
 
@@ -11,4 +14,6 @@ fn main() {
     let _x = EgraphicsExporter::new(p).with_derive_obj_file(true);
 
     info!("ok");
+
+    Ok(())
 }

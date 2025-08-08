@@ -8,7 +8,7 @@ repository.workspace = true
 description = "IO operations for processing graphics formats in 3D space."
 
 [dependencies]
-egraphics-core = { version = "0.0.1-alpha.4", path = "../egraphics-core" }
+egraphics-core = { version = "0.0.1-alpha.8", path = "../egraphics-core" }
 
 thiserror = { workspace = true }
 tracing = { workspace = true }

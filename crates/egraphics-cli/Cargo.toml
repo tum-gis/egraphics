@@ -8,8 +8,9 @@ repository.workspace = true
 description = "CLI tool for processing graphics formats in 3D space."
 
 [dependencies]
-egraphics-core = { version = "0.0.1-alpha.4", path = "../egraphics-core" }
-egraphics-io = { version = "0.0.1-alpha.4", path = "../egraphics-io" }
+egraphics-core = { version = "0.0.1-alpha.8", path = "../egraphics-core" }
+egraphics-io = { version = "0.0.1-alpha.8", path = "../egraphics-io" }
 
+anyhow = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
