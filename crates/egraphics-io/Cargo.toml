@@ -8,10 +8,21 @@ repository.workspace = true
 description = "IO operations for processing graphics formats in 3D space."
 
 [dependencies]
-egraphics-core = { version = "0.0.1-alpha.9", path = "../egraphics-core" }
+egraphics-core = { version = "0.0.2-alpha.1", path = "../egraphics-core" }
 
 thiserror = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
 gltf = { workspace = true, features = ["names"] }
 gltf-json = { workspace = true, features = ["names"] }
+glam = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+tar = { workspace = true }
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+zstd = { workspace = true }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+ruzstd = { workspace = true }

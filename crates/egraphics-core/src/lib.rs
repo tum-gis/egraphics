@@ -1,15 +1,19 @@
+mod accel;
 mod error;
-mod triangle;
-mod triangle_mesh;
+mod math;
+mod scene;
 
 #[doc(inline)]
 pub use error::Error;
 
 #[doc(inline)]
-pub use triangle::Triangle;
+pub use accel::{BuildStrategy, Bvh};
 
 #[doc(inline)]
-pub use triangle::Vertex;
+pub use math::{Aabb, Frustum, Ray, Triangle};
 
 #[doc(inline)]
-pub use triangle_mesh::TriangleMesh;
+pub use scene::{
+    ClassKey, Georeference, LevelOfDetail, MeshKey, MeshRef, Object, ObjectKey, PropertyValue,
+    Scene, TriangleMesh,
+};

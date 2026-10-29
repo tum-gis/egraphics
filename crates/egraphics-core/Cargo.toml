@@ -10,6 +10,14 @@ description = "Core primitives and operations for processing graphics formats in
 
 [dependencies]
 thiserror = { workspace = true }
-nalgebra = { workspace = true }
+glam = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
+approx = { workspace = true }
+strum = { workspace = true }
+strum_macros = { workspace = true }
+slotmap = { workspace = true }
+bytemuck = { workspace = true, features = ["derive"], optional = true }
+
+[features]
+gpu = ["dep:bytemuck", "glam/bytemuck"]

@@ -1,36 +1,56 @@
 //! `egraphics` is a library for processing graphics formats in 3D space.
 //!
-//! It is mainly wrapping [glTF 2.0](https://github.com/KhronosGroup/glTF/tree/main/specification/2.0) and adding an ecoords.
+//! It builds on [glTF 2.0](https://github.com/KhronosGroup/glTF/tree/main/specification/2.0) and
+//! adds a sidecar document with per-object metadata (identifiers, classes, transforms, bounding
+//! boxes, properties) and an optional georeference.
 //!
 //! # Overview
 //!
+//! A [`Scene`] holds the triangle meshes and the objects referencing them. It is exported with
+//! [`io::EgraphicsWriter`]:
 //!
-//! ## Data structure
+//! ```no_run
+//! use egraphics::Scene;
+//! use egraphics::io::EgraphicsWriter;
 //!
-//! For serializing and annotating a graphical format, this data structure is used:
+//! # fn main() -> Result<(), egraphics::io::Error> {
+//! let scene = Scene::new();
+//! EgraphicsWriter::from_path("model.egraphics")?.finish(scene)?;
+//! # Ok(())
+//! # }
+//! ```
 //!
-//! - `model_name` (directory) or `model_name.egraphics` (single file as [tarball](https://en.wikipedia.org/wiki/Tar_(computing)))
-//!     - `model.gltf` (uncompressed) or `model.glb` (compressed)
-//!         - using: [gltf-rs](https://github.com/gltf-rs/gltf)
-//!     - `model.bin`
-//!         - contains vector data
-//!     - `ecoord.json`
-//!         - contains a transform tree with validity durations
-//!         - information: srid
-//!         - purpose: translate and rotate the point cloud without reading/writing the point data
+//! ## File format
 //!
-//! For deriving further graphical format variants, another directory is used:
+//! A model is stored as a single [tar](https://en.wikipedia.org/wiki/Tar_(computing)) archive.
+//! The file extension selects the variant:
 //!
-//! - `model_name_out` (directory)
-//!     - `model.obj`
-//!     - ...
+//! - `model_name.egraphics` (compact, the default)
+//!     - `model_data.glb`: the geometry as binary glTF
+//!     - `info.json.zst`: the sidecar document, compressed with [Zstandard](https://facebook.github.io/zstd/)
+//! - `model_name.egraphics.tar` (uncompressed, human-readable)
+//!     - `model_data.gltf`: the glTF document (pretty-printed JSON)
+//!     - `model_data.bin`: the vertex and index buffer referenced by `model_data.gltf`
+//!     - `info.json`: the sidecar document (pretty-printed JSON)
 //!
-//!  ## References
+//! The sidecar document contains:
+//!
+//! - `georeference` (optional): the coordinate reference system (`crs`) and a
+//!   double-precision `offset` to add to the single-precision vertex coordinates
+//! - `meshes`: one entry per mesh written to the buffer, with its level of detail, vertex and
+//!   index ranges and bounding box
+//! - `objects`: one entry per object, with its identifier, name, class, bounding box,
+//!   referenced meshes (with an optional world transform each) and properties
+//!
+//! How the geometry is grouped into glTF meshes is controlled by [`io::MeshGrouping`].
+//!
+//! ## References
 //!
 //! - [glTF sample models](https://github.com/KhronosGroup/glTF-Sample-Models)
-//!
-//!
 
-pub use egraphics_core::{Error, Triangle, TriangleMesh, Vertex};
+pub use egraphics_core::{
+    Aabb, BuildStrategy, Bvh, Error, Frustum, Georeference, LevelOfDetail, MeshKey, MeshRef,
+    Object, ObjectKey, PropertyValue, Ray, Scene, Triangle, TriangleMesh,
+};
 
 pub use egraphics_io as io;

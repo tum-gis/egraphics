@@ -1,9 +1,9 @@
+mod egraphics;
 mod error;
-mod export;
-mod export_impl;
+mod util;
 
 #[doc(inline)]
-pub use crate::export::EgraphicsExporter;
+pub use crate::egraphics::write::{EgraphicsWriter, MeshGrouping};
 
 #[doc(inline)]
 pub use crate::error::Error;
